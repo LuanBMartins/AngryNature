@@ -1,0 +1,11 @@
+{
+    "postgres": {
+        "bd": "petshop",
+        "usuario": "postgres",
+        "senha": "admin",
+        "host": "localhost"
+    },
+    "api": {
+        "porta": 3000
+    }
+}

@@ -1,7 +1,8 @@
+const config = require('config')
 const express = require('express')
 const cors = require('cors')
 
-const PORT = 3000
+const PORT = config.get('api.porta')
 const app = express()
 
 app.use(cors())
