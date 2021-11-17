@@ -2,8 +2,8 @@ const config = require('config')
 const { Sequelize } = require('sequelize')
 
 const sequelize = new Sequelize(
-	config.get('postgres.petshop'),
-	config.get('postgres.postgres'),
+	config.get('postgres.bd'),
+	config.get('postgres.usuario'),
 	config.get('postgres.senha'),
 	{
 		host: 'localhost',
