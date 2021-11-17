@@ -15,7 +15,7 @@ const user = connection.define('users', {
 	},
 
 	senha: {
-		type: DataTypes.STRING(20),
+		type: DataTypes.TEXT,
 		allowNull: false,
 	},
 
