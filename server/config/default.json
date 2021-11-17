@@ -1,8 +1,8 @@
 {
     "postgres": {
-        "bd": "petshop",
+        "bd": "angry",
         "usuario": "postgres",
-        "senha": "admin",
+        "senha": "mysecretpassword",
         "host": "localhost"
     },
     "api": {
