@@ -39,7 +39,7 @@ const user = connection.define('users', {
 	timestamps: false,
 	hooks: {
 		afterCreate: (record) => {
-			delete record.dataValues.password
+			delete record.dataValues.senha
 		},
 	},
 })
