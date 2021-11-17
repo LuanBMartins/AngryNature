@@ -8,7 +8,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use('/', require('./routes/userRoutes'))
-
+app.use(require('./middlewares/errors'))
 
 app.listen(PORT, () => {
     console.log(`app listen to localhost ${PORT}`);
