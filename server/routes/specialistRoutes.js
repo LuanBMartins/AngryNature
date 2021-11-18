@@ -17,4 +17,17 @@ router.post('/specialists', async (req, res, next) => {
 })
 
 
+// Specialist login
+router.post('/specialists/login', async (req, res, next) => {
+	const data = req.body
+	try {
+		const token = await specialistService.loginSpecialist(data)
+		res.status(200).json(token)
+	} catch (e) {
+		next(e)
+	}
+})
+
+
+
 module.exports = router
