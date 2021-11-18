@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize')
 const connection = require('../database')
 
-const specUser = connection.define('specialistUsers', {
+const specUser = connection.define('specialists', {
     id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
@@ -40,7 +40,7 @@ const specUser = connection.define('specialistUsers', {
     }
 
 }, {
-	tableName: 'specialistUsers',
+	tableName: 'specialists',
 	timestamps: false,
 	hooks: {
 		afterCreate: (record) => {
@@ -49,6 +49,6 @@ const specUser = connection.define('specialistUsers', {
 	},
 })
 
-user.sync()
+specUser.sync()
 
 module.exports = specUser
