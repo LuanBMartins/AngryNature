@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const userData = require('../data/userData')
+const specialistData = require('../data/specialistData')
 const config = require('config')
 
 
@@ -40,4 +41,25 @@ exports.getUser = async function (id) {
 	delete user.senha
 
 	return user
+}
+
+
+exports.putUser = async function (id, newData) {
+	const existingUser = await userData.getUser(id)
+	if (!existingUser) throw new Error('User not found')
+
+	if (Object.prototype.hasOwnProperty.call(newData, 'email')) {
+		const existingUserEmail = await userData.getUserByEmail(newData.email)
+		if (existingUserEmail) throw new Error('Email already exist')
+
+		const existingSpecialist = await specialistData.getSpecialistByEmail(data.email)
+    	if (existingSpecialist) throw new Error('Email already exist')
+	}
+
+	if (Object.prototype.hasOwnProperty.call(newData, 'password')) {
+		const passwordHash = await bcrypt.hash(newData.password, 8)
+		newData.password = passwordHash
+	}
+
+	return userData.putUser(id, newData)
 }

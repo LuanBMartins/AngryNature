@@ -13,3 +13,7 @@ exports.getUserByEmail = function (email) {
 exports.getUser = function (id) {
 	return user.findOne({ where: { id }, raw: true })
 }
+
+exports.putUser = function (id, newData) {
+	return user.update(newData, { where: { id } })
+}

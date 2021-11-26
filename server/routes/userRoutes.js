@@ -38,5 +38,18 @@ router.get('/users/:id', ensureAuthenticated, async (req, res, next) => {
 })
 
 
+// Update user
+router.put('/users/:id', ensureAuthenticated, async (req, res, next) => {
+	const newData = req.body
+	try {
+		if (req.usuario.id_user != req.params.id) throw new Error('Unauthorized')
+		await userService.putUser(req.params.id, newData)
+		res.status(200).end()
+	} catch (e) {
+		next(e)
+	}
+})
+
+
 
 module.exports = router
