@@ -30,9 +30,17 @@ exports.loginSpecialist = async function (data) {
 	const token = jwt.sign({
 		id_user: existingSpecialist.id,
 		email: existingSpecialist.email,
-	}, config.get('kew.jwt'), {
+	}, config.get('key.jwt'), {
 		expiresIn: '1d',
 	})
 
 	return token
+}
+
+exports.getSpecialist = async function (id) {
+	const specialist = await specialistData.getSpecialist(id)
+	if (!specialist) throw new Error('User not found')
+
+	delete specialist.senha
+	return specialist
 }
