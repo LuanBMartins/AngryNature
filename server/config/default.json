@@ -8,7 +8,7 @@
     "api": {
         "porta": 3000
     },
-    "kew": {
+    "key": {
         "jwt": "cbb5b40302212460356ea0fbf452d0cf"
     }
 }
