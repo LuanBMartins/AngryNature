@@ -43,7 +43,6 @@ exports.getUser = async function (id) {
 	return user
 }
 
-
 exports.putUser = async function (id, newData) {
 	const existingUser = await userData.getUser(id)
 	if (!existingUser) throw new Error('User not found')
@@ -62,4 +61,11 @@ exports.putUser = async function (id, newData) {
 	}
 
 	return userData.putUser(id, newData)
+}
+
+exports.deleteUser = async function (id) {
+	const existingUser = await userData.getUser(id)
+	if (!existingUser) throw new Error('User not found')
+
+	return userData.deleteUser(id)
 }
