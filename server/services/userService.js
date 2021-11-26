@@ -26,9 +26,18 @@ exports.loginUser = async function (data) {
 	const token = jwt.sign({
 		id_user: existingUser.id,
 		email: existingUser.email,
-	}, config.get('kew.jwt'), {
+	}, config.get('key.jwt'), {
 		expiresIn: '1d',
 	})
 
 	return token
+}
+
+exports.getUser = async function (id) {
+	const user = await userData.getUser(id)
+	if (!user) throw new Error('User not found')
+
+	delete user.senha
+
+	return user
 }

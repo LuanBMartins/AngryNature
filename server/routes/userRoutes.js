@@ -1,5 +1,6 @@
 const express = require('express')
 const userService = require('../services/userService')
+const ensureAuthenticated = require('../middlewares/ensureAuthenticated')
 const router = express.Router()
 
 
@@ -24,6 +25,18 @@ router.post('/users/login', async (req, res, next) => {
 		next(e)
 	}
 })
+
+// Get user
+router.get('/users/:id', ensureAuthenticated, async (req, res, next) => {
+	try {
+		if (req.usuario.id_user != req.params.id) throw new Error('Unauthorized')
+		const user = await userService.getUser(req.params.id)
+		res.status(200).json(user)
+	} catch (e) {
+		next(e)
+	}
+})
+
 
 
 module.exports = router

@@ -8,3 +8,8 @@ exports.saveUser = function (newUser) {
 exports.getUserByEmail = function (email) {
 	return user.findOne({ where: { email } })
 }
+
+
+exports.getUser = function (id) {
+	return user.findOne({ where: { id }, raw: true })
+}
