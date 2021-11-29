@@ -1,0 +1,20 @@
+.container-useraccount{
+  background: linear-gradient(to right, rgb(113, 163, 179),rgb(89, 194, 89));
+  display: flex;
+  height: 100vh;
+  align-items: center;
+}
+
+.content-useraccount{
+  position: absolute;
+  left: 50%;
+}
+
+.data-user{
+  padding: 2em;
+  background: white;
+  border: 1px solid black;
+  border-radius: 6px;
+}
+
+
