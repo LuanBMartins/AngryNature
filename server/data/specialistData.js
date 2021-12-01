@@ -16,3 +16,7 @@ exports.getSpecialist = function (id) {
 exports.putSpecialist = function (id, newData) {
 	return specialist.update(newData, { where: { id } })
 }
+
+exports.deleteSpecialist = function (id) {
+	return specialist.destroy({ where: { id } })
+}

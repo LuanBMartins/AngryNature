@@ -65,3 +65,10 @@ exports.putSpecialist = async function (id, newData) {
 
 	return specialistData.putSpecialist(id, newData)
 }
+
+exports.deleteSpecialist = async function (id) {
+	const existingSpecialist = await specialistData.getSpecialist(id)
+	if (!existingSpecialist) throw new Error('User not found')
+	
+	return specialistData.deleteSpecialist(id)
+}

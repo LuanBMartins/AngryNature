@@ -53,4 +53,15 @@ router.put('/specialists/:id', ensureAuthenticated, async (req, res, next) => {
 })
 
 
+// Delete specialist
+router.delete('/specialists/:id', ensureAuthenticated, async (req, res, next) => {
+	try {
+		if (req.usuario.id_user != req.params.id) throw new Error('Unauthorized')
+		await specialistService.deleteSpecialist(req.params.id)
+		res.status(200).end()
+	} catch (e) {
+		next(e)
+	}
+})
+
 module.exports = router
