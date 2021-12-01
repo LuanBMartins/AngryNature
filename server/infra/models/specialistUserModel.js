@@ -49,6 +49,6 @@ const specUser = connection.define('specialists', {
 	},
 })
 
-specUser.sync()
+
 
 module.exports = specUser

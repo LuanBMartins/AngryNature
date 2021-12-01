@@ -65,13 +65,8 @@ const phenomenon = connection.define('phenomenon', {
 }, {
 	tableName: 'phenomenon',
 	timestamps: false,
-	hooks: {
-		afterCreate: (record) => {
-			delete record.dataValues.senha
-		},
-	},
 })
 
-phenomenon.sync()
+
 
 module.exports = phenomenon
