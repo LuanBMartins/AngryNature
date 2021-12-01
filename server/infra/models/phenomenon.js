@@ -14,11 +14,11 @@ const phenomenon = connection.define('phenomenon', {
 	},
 
 	estado: {
-		type: DataTypes.CHAR(4),
+		type: DataTypes.CHAR(2),
 		allowNull: false,
 	},
 
-	local: {
+	cidade: {
 		type: DataTypes.STRING(100),
 		allowNull: false,
 	},
