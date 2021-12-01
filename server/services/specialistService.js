@@ -30,6 +30,7 @@ exports.loginSpecialist = async function (data) {
 	const token = jwt.sign({
 		id_user: existingSpecialist.id,
 		email: existingSpecialist.email,
+		specialista: true,
 	}, config.get('key.jwt'), {
 		expiresIn: '1d',
 	})

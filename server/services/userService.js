@@ -27,6 +27,7 @@ exports.loginUser = async function (data) {
 	const token = jwt.sign({
 		id_user: existingUser.id,
 		email: existingUser.email,
+		comum: true,
 	}, config.get('key.jwt'), {
 		expiresIn: '1d',
 	})
