@@ -25,7 +25,7 @@ const specUser = connection.define('specialists', {
 	},
 	
     nascimento: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
 		allowNull: false,
     },
 

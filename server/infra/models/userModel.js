@@ -25,11 +25,11 @@ const user = connection.define('users', {
 	},
 	
     nascimento: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
 		allowNull: false,
     },
 
-    regiao: {
+    estado: {
         type: DataTypes.STRING(100),
 		allowNull: false,
     }
