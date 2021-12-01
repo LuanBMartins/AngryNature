@@ -30,7 +30,7 @@ router.get('/fenomeno/consulta/:usuario/:id', async (req, res, next) => {
     }
 })
 
-router.put('/fenomeno/atualiza/:id', async(req, res, next) => {
+router.put('/fenomeno/atualiza/:id', ensureAuthenticated, async(req, res, next) => {
     try {
         const response = await phenomenonService.update(req.params.id, req.body)
         res.status(200).send(response)
@@ -39,7 +39,7 @@ router.put('/fenomeno/atualiza/:id', async(req, res, next) => {
     }
 })
 
-router.delete('/fenomeno/deleta/:id', async (req, res, next) => {
+router.delete('/fenomeno/deleta/:id', ensureAuthenticated, async (req, res, next) => {
     try {
         await phenomenonService.remove(req.params.id)
         res.status(201).end()
