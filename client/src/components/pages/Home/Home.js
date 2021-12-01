@@ -25,8 +25,10 @@ export default function UserForm() {
 
 
   const pais = ['Selecione o país', 'Brasil', 'Alemanha', 'Estados Unidos']
+
+  // http://educacao.dadosabertosbr.com/api/cidades/mg
   const cidade = ['Selecione a cidade', 'Pouso Alegre', 'Berlin', 'Florida']
-  const estado = ['Selecione o estado', 'MG', 'SP', 'RJ']
+  const estado = ['Selecione o estado', 'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO', 'DF']
   const especialidade = ['Selecione uma especialidade', 'Meteorologia', 'Astronomo', 'Físico', 'Engenhario Quimico', 'Biologo', 'Cientista de dados']
 
 
