@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const phenomenonService = require('../services/phenomenonService')
+const ensureAuthenticated = require('../middlewares/ensureAuthenticated')
 
-
-router.post('/fenomeno/cadastro', async (req, res, next) => {
+router.post('/fenomeno/cadastro', ensureAuthenticated, async (req, res, next) => {
     try {
         const response = await phenomenonService.create(req.body)
         res.status(200).send(response)
