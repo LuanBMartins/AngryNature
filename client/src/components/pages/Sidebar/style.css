@@ -4,6 +4,10 @@
   background-color: rgba(0,0,0,0.8);
 }
 
+.link{
+  text-decoration: none;
+}
+
 .SidebarList{
   height: auto;
   padding: 0;
@@ -45,4 +49,5 @@
 
 .avatar {
   text-align: center;
+  color: white;
 }

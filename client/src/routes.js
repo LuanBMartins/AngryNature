@@ -5,6 +5,9 @@ import ProtectedRoute from './ProtectedRoute';
 import Home from './components/pages/Home/Home'
 import Dashboard from './components/pages/Dashboard/Dashboard'
 import UserAccount from './components/pages/UserAccount/UserAccount'
+import DeleteAccount from './components/pages/DeleteAccount/DeleteAccount'
+import AllSpecialists from './components/pages/AllSpecialists/AllSpecialists'
+import Sidebar from './components/pages/Sidebar/Sidebar'
 import Error from './components/pages/Error/Error'
 
 export default function routes() {
@@ -17,7 +20,22 @@ export default function routes() {
             <Dashboard/>
           </ProtectedRoute>
         }/>
-        <Route path="/useraccount" element={<UserAccount/>} /> 
+        <Route exact path="/useraccount" element={
+          <ProtectedRoute>
+            <UserAccount/>
+          </ProtectedRoute>
+        }/>
+        <Route exact path="/deleteaccount" element={
+          <ProtectedRoute>
+            <DeleteAccount/>
+          </ProtectedRoute>
+        }/>
+        <Route exact path="/allspecialists" element={
+          <ProtectedRoute>
+            <AllSpecialists/>
+          </ProtectedRoute>
+        }/>
+        
         <Route path="*" element={<Error/>} />
       </Routes>
     </Router>
