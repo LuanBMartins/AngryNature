@@ -1,0 +1,15 @@
+.container-delete{
+  background: linear-gradient(to right, rgb(113, 163, 179),rgb(89, 194, 89));
+  display: flex;
+}
+
+.content-delete{
+  position: absolute;
+  font-size: 25px;
+  margin-left: 1em;
+  margin-top: 1em;
+  background-color: rgb(255, 255, 255);
+  border-radius: 6px;
+  box-shadow: 4px 4px 2px black;
+  text-align: center;
+}
