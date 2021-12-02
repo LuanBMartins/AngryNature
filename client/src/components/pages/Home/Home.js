@@ -28,7 +28,9 @@ export default function UserForm() {
   const notifySuccess = (message) => toast.success(message)
   const notifyError = (message) => toast.error(message)
 
+
   const navigate = useNavigate()
+
 
   const especialidade = ['Meteorologista', 'Astronomo', 'Físico', 'Engenheiro Quimico', 'Biologo', 'Cientista de dados', 'Analista de dados', 'Desenvolvedor']
 

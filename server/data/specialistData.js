@@ -12,3 +12,11 @@ exports.getSpecialistByEmail = function (email) {
 exports.getSpecialist = function (id) {
 	return specialist.findOne({ where: { id }, raw: true })
 }
+
+exports.putSpecialist = function (id, newData) {
+	return specialist.update(newData, { where: { id } })
+}
+
+exports.deleteSpecialist = function (id) {
+	return specialist.destroy({ where: { id } })
+}

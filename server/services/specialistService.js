@@ -30,6 +30,7 @@ exports.loginSpecialist = async function (data) {
 	const token = jwt.sign({
 		id_user: existingSpecialist.id,
 		email: existingSpecialist.email,
+		specialista: true,
 	}, config.get('key.jwt'), {
 		expiresIn: '1d',
 	})
@@ -43,4 +44,31 @@ exports.getSpecialist = async function (id) {
 
 	delete specialist.senha
 	return specialist
+}
+
+exports.putSpecialist = async function (id, newData) {
+	const existingSpecialist = await specialistData.getSpecialist(id)
+	if (!existingSpecialist) throw new Error('User not found')
+
+	if (Object.prototype.hasOwnProperty.call(newData, 'email')) {
+		const existingUserEmail = await userData.getUserByEmail(newData.email)
+		if (existingUserEmail) throw new Error('Email already exist')
+
+		const existingSpecialist = await specialistData.getSpecialistByEmail(data.email)
+    	if (existingSpecialist) throw new Error('Email already exist')
+	}
+
+	if (Object.prototype.hasOwnProperty.call(newData, 'password')) {
+		const passwordHash = await bcrypt.hash(newData.password, 8)
+		newData.password = passwordHash
+	}
+
+	return specialistData.putSpecialist(id, newData)
+}
+
+exports.deleteSpecialist = async function (id) {
+	const existingSpecialist = await specialistData.getSpecialist(id)
+	if (!existingSpecialist) throw new Error('User not found')
+	
+	return specialistData.deleteSpecialist(id)
 }

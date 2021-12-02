@@ -9,6 +9,9 @@ exports.saveUser = async function (data) {
 	const existingUser = await userData.getUserByEmail(data.email)
 	if (existingUser) throw new Error('User already exist')
 
+	const existingSpecialist = await specialistData.getSpecialistByEmail(data.email)
+    if (existingSpecialist) throw new Error('User already exist')
+
 	const newUser = data
 	const passwordHash = await bcrypt.hash(newUser.senha, 8)
 	newUser.senha = passwordHash
@@ -27,6 +30,7 @@ exports.loginUser = async function (data) {
 	const token = jwt.sign({
 		id_user: existingUser.id,
 		email: existingUser.email,
+		comum: true,
 	}, config.get('key.jwt'), {
 		expiresIn: '1d',
 	})

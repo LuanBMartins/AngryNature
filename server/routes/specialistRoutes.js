@@ -17,7 +17,6 @@ router.post('/specialists', async (req, res, next) => {
 	}
 })
 
-
 // Specialist login
 router.post('/specialists/login', async (req, res, next) => {
 	const data = req.body
@@ -29,6 +28,7 @@ router.post('/specialists/login', async (req, res, next) => {
 	}
 })
 
+// Get specialist
 router.get('/specialists/:id', ensureAuthenticated, async (req, res, next) => {
 	try {
 		if (req.usuario.id_user != req.params.id) throw new Error('Unauthorized')
@@ -40,5 +40,28 @@ router.get('/specialists/:id', ensureAuthenticated, async (req, res, next) => {
 })
 
 
+// Update specialist
+router.put('/specialists/:id', ensureAuthenticated, async (req, res, next) => {
+	const newData = req.body
+	try {
+		if (req.usuario.id_user != req.params.id) throw new Error('Unauthorized')
+		await specialistService.putSpecialist(req.params.id, newData)
+		res.status(200).end()
+	} catch (e) {
+		next(e)
+	}
+})
+
+
+// Delete specialist
+router.delete('/specialists/:id', ensureAuthenticated, async (req, res, next) => {
+	try {
+		if (req.usuario.id_user != req.params.id) throw new Error('Unauthorized')
+		await specialistService.deleteSpecialist(req.params.id)
+		res.status(200).end()
+	} catch (e) {
+		next(e)
+	}
+})
 
 module.exports = router
