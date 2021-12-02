@@ -91,13 +91,15 @@ export default function UserForm() {
   const onSubmitRegister = async (e) => {
     e.preventDefault();
     try {
+     
+  
       const config = {
         headers: {
           'Content-Type': 'application/json'
         }
       }
       let response;
-      if(register.organizacao && register.especialidade){
+      if(register.organizacao){
         response = await api.post('specialists', JSON.stringify(register), config)
         if(response.status === 201){
           notifySuccess('Criado com sucesso')
@@ -120,16 +122,12 @@ export default function UserForm() {
       }
       clearForm();
     } catch (error) {
-      notifyError('Erro ao criar')
+      notifyError(error.message)
     }
   }
 
   useEffect(() => {
     setEstado(location.estados[0])
-    setRegister((prev) => ({
-      ...prev,
-      estado: location.estados[0].sigla
-    }))
   }, [])
 
   return (
@@ -223,6 +221,7 @@ export default function UserForm() {
               }} 
               required
             >
+              <option></option>
               {location.estados.map((el, key) => {
                 return <option key={key} value={el.sigla}>{el.sigla} - {el.nome}</option>
               })}
@@ -242,6 +241,7 @@ export default function UserForm() {
               }} 
               required
             >
+              <option></option>
               {estado && (
                 estado?.cidades?.map((el) => {
                   return <option value={el}>{el}</option>
@@ -290,6 +290,7 @@ export default function UserForm() {
               <label>
                 <span>Especialidade</span>
                 <select name="especialidade" value={register.especialidade} onChange={handleChangeRegister} required>
+                  <option></option>
                   {especialidade.map((el, key) => {
                     return <option key={key} value={el}>{el}</option>
                   })}

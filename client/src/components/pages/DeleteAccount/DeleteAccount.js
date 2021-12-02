@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidebar from '../Sidebar/Sidebar'
 import { Button } from 'reactstrap'
 import './style.delete.css'
@@ -35,6 +35,7 @@ export default function Dashboard() {
         response = await api.get(`users/${decode.id_user}`, config)
         if(response.status === 200){
           setEmailData(response.data.email)
+          console.log('email', response.data)
         } else{
           throw new Error('Erro ao buscar')
         }
@@ -53,9 +54,6 @@ export default function Dashboard() {
 
   const deleteUser = async() => {
     try {
-      await getEmail()
-      console.log(email)
-      console.log(email)
       const token = localStorage.getItem('token')
       const decoded = discriToken()
       const config = {
@@ -63,6 +61,9 @@ export default function Dashboard() {
           'Authorization': `Bearer ${token}`
         }
       }
+
+      console.log(email)
+      console.log(emailData)
 
       if(email === emailData){
         let response;
@@ -85,6 +86,10 @@ export default function Dashboard() {
       notifyError(error.message)
     }
   }
+
+  useEffect(() => {
+    getEmail()
+  }, [])
 
   return (
     <div className="container-delete">

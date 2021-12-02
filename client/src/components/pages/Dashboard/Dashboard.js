@@ -9,8 +9,7 @@ export default function Dashboard() {
       <div>
         <h2>Dashboard</h2>
         <div className="content">
-          Não há posts no momento
-          <button className="">Adicionar post</button>
+          Em construção...
         </div>
       </div>
 

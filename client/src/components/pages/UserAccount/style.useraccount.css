@@ -23,9 +23,11 @@
 }
 
 .content-data span{
-  padding: 0.5em;
-  background: rgb(197, 197, 197);
+  padding: 0.2em;
+  background: rgba(115, 164, 197, 0.623);
   border-radius: 5px;
+  font-style: italic;
+  margin-left: 1em;
 }
 
 .delete-edit{

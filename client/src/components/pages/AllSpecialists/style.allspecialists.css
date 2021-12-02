@@ -1,14 +1,18 @@
-.container-useraccount{
+.container-specialists{
   background: linear-gradient(to right, rgb(113, 163, 179),rgb(89, 194, 89));
   display: flex;
   height: 100vh;
-  align-items: center;
+}
+
+.specialists{
+  padding: 10px;
+  margin: 10px;
 }
 
 .content-data{
   display: flex;
   flex-direction: column;
-  padding: 2em;
+  padding: 5em;
   background: white;
   border-radius: 6px;
   margin-left: 8em;
@@ -22,16 +26,20 @@
   border-radius: 3px;
 }
 
-.content-data span{
-  padding: 0.5em;
-  background: rgb(197, 197, 197);
+.specialists span{
+  padding: 0.2em;
+  background: rgba(115, 164, 197, 0.623);
   border-radius: 5px;
+  font-style: italic;
+  margin-left: 1em;
 }
 
 .delete-edit{
   justify-content: center;
   font-style: italic;
 }
+
+
 
 
 

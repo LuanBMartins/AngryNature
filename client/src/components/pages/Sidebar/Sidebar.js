@@ -9,6 +9,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import GroupsIcon from '@mui/icons-material/Groups';
 import DeleteIcon from '@mui/icons-material/Delete';
 import discriToken from './../../../utils/discriToken';
+import FeedIcon from '@mui/icons-material/Feed';
 
 export default function Sidebar() {
 
@@ -65,6 +66,7 @@ export default function Sidebar() {
         })}
 
           {!typeComum && (
+            <>
             <Link
               to="/allspecialists"
               className="link"
@@ -76,7 +78,21 @@ export default function Sidebar() {
               <div id="title">Especialistas</div>
             </li>
            </Link>
+           <Link
+              to="/mypublications"
+              className="link"
+            >
+            <li
+              className="row"
+            >
+              <div id="icon"><FeedIcon/></div>
+              <div id="title">Minhas publicações</div>
+            </li>
+           </Link>
+           </>
           )}
+
+          
 
             <Link
               to="/deleteaccount"
