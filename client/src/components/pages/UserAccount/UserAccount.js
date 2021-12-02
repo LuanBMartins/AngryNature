@@ -35,7 +35,6 @@ export default function UserAccount() {
 
   const especialidade = ['Meteorologista', 'Astronomo', 'Físico', 'Engenheiro Quimico', 'Biologo', 'Cientista de dados', 'Analista de dados', 'Desenvolvedor']
   
-  const [formEspecializado, setFormEspecializado] = useState('')
   const [data, setData] = useState({
     email: '',
     nome: '',
@@ -60,7 +59,6 @@ export default function UserAccount() {
     try {
       const token = localStorage.getItem('token')
       const decoded = discriToken()
-      console.log(decoded)
       const config = {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -85,9 +83,14 @@ export default function UserAccount() {
     }
   }
 
+  useEffect(() => {
+    console.log(update)
+  }, [update])
+
   const handleSubmitUpdate = async (e) => {
     
     try {
+      
       const token = localStorage.getItem('token')
       const decoded = discriToken()
       const config = {
@@ -98,6 +101,7 @@ export default function UserAccount() {
       }
       let response;
       if(!decoded.comum){
+        console.log('update', update)
         response = await api.put(`specialists/${decoded.id_user}`, JSON.stringify(update), config)
         if(response.status === 200){
           notifySuccess('Atualizado com sucesso')
@@ -111,7 +115,6 @@ export default function UserAccount() {
             delete update[key]
           }
         }
-        console.log(update)
         response = await api.put(`users/${decoded.id_user}`, JSON.stringify(update), config)
         if(response.status === 200){
           notifySuccess('Atualizado com sucesso')
@@ -123,6 +126,11 @@ export default function UserAccount() {
     } catch (error) {
       notifyError('Erro ao criar')
     }
+  }
+
+  const checkType = () => {
+    const decoded = discriToken()
+    return decoded.comum;
   }
   
 
@@ -238,19 +246,7 @@ export default function UserAccount() {
             />
           </label>
 
-          <label>
-            <span>Cadastro para usuário especializado?</span>
-            <input
-              type="checkbox"
-              className="check"
-              onChange={(e) => {
-                setFormEspecializado(e.target.checked)
-              }}
-              
-            />
-          </label>
-
-          {formEspecializado && (
+          {!checkType() && (
             <>
               <label>
                 <span>Instituição/Organização</span>
@@ -276,17 +272,23 @@ export default function UserAccount() {
                 </ModalBody>
                 <ModalFooter>
                   <Button color="primary" onClick={handleSubmitUpdate}>Confirmar</Button>
-                  <Button color="danger" >Cancelar</Button>
+                  <Button color="danger" onClick={toggle}>Cancelar</Button>
                 </ModalFooter>
               </Modal>
         <div className="content-data">
 
             <div style={{border: 'none'}}>
-              <div>Nome: <span>{data.nome}</span></div>
-              <div>Email: <span>{data.email}</span></div>
-              <div>Nascimento: <span>{data.nascimento.split('T')[0]}</span></div>
-              <div>Estado: <span>{data.estado}</span></div>
-              <div>Cidade: <span>{data.cidade}</span></div>
+              <div className="mb-2">Nome: <span>{data.nome}</span></div>
+              <div className="mb-2">Email: <span>{data.email}</span></div>
+              <div className="mb-2">Nascimento: <span>{data.nascimento.split('T')[0]}</span></div>
+              <div className="mb-2">Estado: <span>{data.estado}</span></div>
+              <div className="mb-2">Cidade: <span>{data.cidade}</span></div>
+              {!checkType() && (
+                <>
+                  <div className="mb-2">Organização: <span>{data.organizacao}</span> </div>
+                   <div className="mb-2">Especialidade: <span>{data.especialidade}</span> </div>
+                </>  
+              )}
             </div>
             
             

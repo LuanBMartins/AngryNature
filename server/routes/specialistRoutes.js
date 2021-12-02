@@ -42,6 +42,7 @@ router.get('/specialists/:id', ensureAuthenticated, async (req, res, next) => {
 // Update specialist
 router.put('/specialists/:id', ensureAuthenticated, async (req, res, next) => {
 	const newData = req.body
+  console.log(newData)
 	try {
 		if (req.usuario.id_user != req.params.id) throw new Error('Unauthorized')
 		await specialistService.putSpecialist(req.params.id, newData)

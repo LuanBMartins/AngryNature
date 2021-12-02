@@ -66,7 +66,7 @@ exports.putUser = async function (id, newData) {
 	const existingUser = await userData.getUser(id)
 	if (!existingUser) throw new Error('User not found')
 
-	const filters = ['email', 'senha', 'nome', 'nascimento', 'estado']
+	const filters = ['email', 'senha', 'nome', 'nascimento','estado', 'cidade']
     const validFilters = {}
 
     // Analisando quais filtros foram informados
@@ -84,9 +84,9 @@ exports.putUser = async function (id, newData) {
     	if (existingSpecialist) throw new Error('Email already exist')
 	}
 
-	if (Object.prototype.hasOwnProperty.call(validFilters, 'password')) {
-		const passwordHash = await bcrypt.hash(validFilters.password, 8)
-		validFilters.password = passwordHash
+	if (Object.prototype.hasOwnProperty.call(validFilters, 'senha')) {
+		const passwordHash = await bcrypt.hash(validFilters.senha, 8)
+		validFilters.senha = passwordHash
 	}
 
 	return userData.putUser(id, validFilters)
