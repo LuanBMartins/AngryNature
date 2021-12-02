@@ -3,46 +3,68 @@ import React, { useState, useEffect } from 'react'
 import Sidebar from '../Sidebar/Sidebar'
 import './style.useraccount.css'
 import api from "./../../../services/api"
+import location  from './../../../utils/location.json'
+import { ToastContainer, toast } from 'react-toastify'
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { Modal, ModalFooter, ModalHeader, ModalBody, Button } from 'reactstrap'
+
 export default function UserAccount() {
 
   const [update, setUpdate] = useState({
-    name: "",
-    email: "",
-    birthday: "",
-    country: "",
-    state: "",
-    city: "",
-    specialty: "",
-    organization: ""
+    email: '',
+    nome: '',
+    senha: '',
+    nascimento: '',
+    regiao: {estado: '', cidade: ''},
+    organizacao: '',
+    especialidade: ''
   })
+
+  const [modal, setModal] = useState(false)
+  const [estado, setEstado] = useState({})
+
+  const toggle = () => setModal(!modal)
+
+  const especialidade = ['Meteorologista', 'Astronomo', 'Físico', 'Engenheiro Quimico', 'Biologo', 'Cientista de dados', 'Analista de dados', 'Desenvolvedor']
   
-  const [message, setMessage] = useState(false)
-
   const [formEspecializado, setFormEspecializado] = useState('')
-  const [res, setRes] = useState({
-    nome: 'Carlos',
-    email: 'carlos@teste.com',
-    pais: 'Brasil',
-    estado: 'MG' 
+  const [data, setData] = useState({
+    email: '',
+    nome: '',
+    senha: '',
+    nascimento: '',
+    regiao: {estado: '', cidade: ''},
+    organizacao: '',
+    especialidade: ''
   })
 
-  // name: "",
-  // email: "",
-  // birthday: "",
-  // country: "",
-  // state: "",
-  // city: "",
-  // specialty: "",
-  // organization: ""
+  const handleChangeUpdate = (e) => {
+    const name = e.target.name;
 
-  const [data, setData] = useState({})
+    setUpdate({
+      ...update,
+      [name]: e.target.value
+    })
+  }
 
-  const getDataUser = async (email) =>{
+  const getDataUser = async () =>{
     try {
-      const response = await api.get(`user/${email}`)
+      const token = localStorage.getItem('token')
+      const id = localStorage.getItem('id')
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }
+      const response = await api.get(`users/${id}`, config)
 
       if(response.status === 200){
-        setRes(response.data)
+        setData(response.data)
+    
+        console.log(response.data.nascimento.split('T'))
+      } else {
+        throw response.data
       }
 
     } catch (error) {
@@ -53,6 +75,13 @@ export default function UserAccount() {
   const handleSubmitUpdate = async (e) => {
     
     try {
+      const token = JSON.parse(localStorage.getItem('token'))
+      const email = JSON.parse(localStorage.getItem('email'))
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }
       const response = await api.patch(`user/${update.email}`, update);
       if(response === 201){
         setData(response.message)
@@ -62,29 +91,30 @@ export default function UserAccount() {
     }
   }
   
-  const handleChangeUpdate = (e) => {
-    const name = e.target.name;
 
-    setUpdate({
-      ...update,
-      [name]: e.target.value
-    })
-  }
+  useEffect(() => {
+    getDataUser()
+  }, [])
+
 
   return (
   
       <div className="container-useraccount">
         <Sidebar />
-        <div className="content-useraccount">
-          <form>
+        <Modal isOpen={modal} toggle={toggle}>
+          <ModalHeader>
+            Atualizar dados
+          </ModalHeader>
+          <ModalBody>
           <label>
             <span>Nome: </span>
             <input
-              name="name"
+              name="nome"
               type="text"
               placeholder="Nome"
-              value={data.name}
+              value={update.nome}
               onChange={handleChangeUpdate}
+              required
             />
           </label>
 
@@ -94,58 +124,75 @@ export default function UserAccount() {
               name="email"
               type="email"
               placeholder="Email"
-              value={data.email}
+              value={update.email}
               onChange={handleChangeUpdate}
+              required
             />
           </label>
 
           <label>
             <span>Nascimento: </span>
             <input
-              name="birthday"
+              name="nascimento"
               type="date"
               placeholder="Nascimento"
+              value={update.nascimento}
               onChange={handleChangeUpdate}
+              required
             />
           </label>
 
           <label>
-            <span>País: </span>
-            <select name="country" placeholder="País" onChange={handleChangeUpdate}>
-              <option>{data.pais}</option>
-            </select>
-          </label>
-
-          <label>
             <span>Estado: </span>
-
-            <select
-              name="state"
-              placeholder="Estado"
-              onChange={handleChangeUpdate}
+            <select 
+              name="estado" 
+              placeholder="Estado" 
+              value={update.estado} 
+              onChange={(e) => { 
+                setUpdate((prev) => ({
+                  ...prev,
+                  regiao: {estado: e.target.value, cidade: ''}
+                }))
+                setEstado(location.estados.find((el) => el.sigla === e.target.value))
+              }} 
+              required
             >
-             <option>{data.estado}</option>
+              {location.estados.map((el, key) => {
+                return <option key={key} value={el.sigla}>{el.sigla} - {el.nome}</option>
+              })}
             </select>
           </label>
-
           <label>
             <span>Cidade: </span>
-            <select
-              name="city"
-              placeholder="Cidade"
-              onChange={handleChangeUpdate}
+            <select 
+              name="cidade" 
+              placeholder="Cidade" 
+              value={update.cidade} 
+              onChange={(e) => {
+                setUpdate((prev) => ({
+                  ...prev,
+                  regiao: {...update.regiao, cidade: e.target.value}
+                }))
+              }} 
+              required
             >
-              <option value="">Teste</option>
+              {estado && (
+                estado?.cidades?.map((el) => {
+                  return <option value={el}>{el}</option>
+                })
+              )}
             </select>
-          </label>
+          </label>       
 
           <label>
             <span>Senha</span>
             <input
-              name="password"
+              name="senha"
               type="password"
               placeholder="Senha"
+              value={update.senha}
               onChange={handleChangeUpdate}
+              required
             />
           </label>
 
@@ -157,12 +204,52 @@ export default function UserAccount() {
               onChange={(e) => {
                 setFormEspecializado(e.target.checked)
               }}
+              
             />
           </label>
-          <button>CONFIRMAR</button>
-          </form>
-        </div>
+
+          {formEspecializado && (
+            <>
+              <label>
+                <span>Instituição/Organização</span>
+                <input
+                  name="organizacao"
+                  type="text"
+                  placeholder="Sigla ou nome"
+                  value={update.organizacao}
+                  onChange={handleChangeUpdate}
+                  required
+                />
+              </label>
+              <label>
+                <span>Especialidade</span>
+                <select name="especialidade" value={update.especialidade} onChange={handleChangeUpdate} required>
+                  {especialidade.map((el, key) => {
+                    return <option key={key} value={el}>{el}</option>
+                  })}
+                </select>
+              </label>
+            </>
+          )}
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="primary">Confirmar</Button>
+                  <Button color="danger" >Cancelar</Button>
+                </ModalFooter>
+              </Modal>
+        <div className="content-data">
          
+            <div>Nome: <span>{data.nome}</span></div>
+            <div>Email: <span>{data.email}</span></div>
+            <div>Nascimento: <span>{data.nascimento.split('T')[0]}</span></div>
+            <div>Estado: <span>{data.regiao.estado}</span></div>
+            <div>Cidade: <span>{data.regiao.cidade}</span></div>
+            
+            <label className="delete-edit">
+            <EditIcon color="primary" fontSize="large" style={{cursor: 'pointer'}} onClick={toggle} />
+            <DeleteIcon color="error" fontSize="large" style={{cursor: 'pointer'}}/>
+            </label>          
+        </div>
       </div>
  
   )
