@@ -1,7 +1,7 @@
 import { dialogClasses } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import Sidebar from '../Sidebar/Sidebar'
-import './style.useraccount.css'
+import './style.allspecialists.css'
 import api from "./../../../services/api"
 import location  from './../../../utils/location.json'
 import { ToastContainer, toast } from 'react-toastify'

@@ -20,7 +20,8 @@ export default function UserForm() {
     nome: '',
     senha: '',
     nascimento: '',
-    regiao: {estado: '', cidade: ''},
+    estado: '',
+    cidade: '',
     organizacao: '',
     especialidade: ''
   });
@@ -28,9 +29,7 @@ export default function UserForm() {
   const notifySuccess = (message) => toast.success(message)
   const notifyError = (message) => toast.error(message)
 
-
   const navigate = useNavigate()
-
 
   const especialidade = ['Meteorologista', 'Astronomo', 'Físico', 'Engenheiro Quimico', 'Biologo', 'Cientista de dados', 'Analista de dados', 'Desenvolvedor']
 
@@ -40,7 +39,8 @@ export default function UserForm() {
       nome: '',
       senha: '',
       nascimento: '',
-      regiao: {estado: location.estados[0].sigla, cidade: ''},
+      estado: '',
+      cidade: '',
       organizacao: '',
       especialidade: ''
     })
@@ -66,6 +66,7 @@ export default function UserForm() {
     })
   }
 
+
   const onSubmitLogin = async(e) => {
     e.preventDefault();
     try {
@@ -77,14 +78,13 @@ export default function UserForm() {
       const response = await api.post('users/login', JSON.stringify(login), config)
       if(response.status === 200) {
         localStorage.setItem('token', response.data)
-        localStorage.setItem('email', login.email)
-        localStorage.setItem('id', 1)
+        notifySuccess('Logado com sucesso')
         navigate("/dashboard")
-      } else{
-        throw new Error('Login invalido')
+      } else {
+        throw new Error('error')
       }
     } catch (error) {
-      console.log(error)
+      notifyError('Email e/ou senha incorretos')
     }
   }
 
@@ -100,7 +100,7 @@ export default function UserForm() {
       if(register.organizacao && register.especialidade){
         response = await api.post('specialists', JSON.stringify(register), config)
         if(response.status === 201){
-          notifySuccess(response.data.message)
+          notifySuccess('Criado com sucesso')
         } else{
           throw new Error('Erro ao registrar especialista')
         }
@@ -112,8 +112,8 @@ export default function UserForm() {
         }
         response = await api.post('users', JSON.stringify(register), config)
         if(response.status === 201){
-          console.log(response.data.message)
-          notifySuccess(response.data.message)
+          console.log('respostaa aqui', response.data)
+          notifySuccess('Criado com sucesso')
         } else{
           throw new Error('Erro ao registrar usuário')
         }
@@ -128,9 +128,8 @@ export default function UserForm() {
     setEstado(location.estados[0])
     setRegister((prev) => ({
       ...prev,
-      regiao: {estado: location.estados[0].sigla, cidade: ''}
+      estado: location.estados[0].sigla
     }))
-    console.log(location.estados[0])
   }, [])
 
   return (
@@ -218,7 +217,7 @@ export default function UserForm() {
               onChange={(e) => { 
                 setRegister((prev) => ({
                   ...prev,
-                  regiao: {estado: e.target.value, cidade: ''}
+                  estado: e.target.value
                 }))
                 setEstado(location.estados.find((el) => el.sigla === e.target.value))
               }} 
@@ -238,7 +237,7 @@ export default function UserForm() {
               onChange={(e) => {
                 setRegister((prev) => ({
                   ...prev,
-                  regiao: {...register.regiao, cidade: e.target.value}
+                  cidade: e.target.value
                 }))
               }} 
               required
