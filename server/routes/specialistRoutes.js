@@ -17,12 +17,11 @@ router.post('/specialists', async (req, res, next) => {
 	}
 })
 
-// Specialist login
-router.post('/specialists/login', async (req, res, next) => {
-	const data = req.body
+// Get all especialists
+router.get('/specialists', async (req, res, next) => {
 	try {
-		const token = await specialistService.loginSpecialist(data)
-		res.status(200).json(token)
+		const specialists = await specialistService.getSpecialists()
+		res.status(200).json(specialists)
 	} catch (e) {
 		next(e)
 	}

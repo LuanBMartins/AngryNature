@@ -1,8 +1,6 @@
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
 const specialistData = require('../data/specialistData')
 const userData = require('../data/userData')
-const config = require('config')
 
 exports.saveSpecialist = async function (data) {
 
@@ -20,22 +18,13 @@ exports.saveSpecialist = async function (data) {
 	return specialistData.saveSpecialist(newUser)
 }
 
-exports.loginSpecialist = async function (data) {
-	const existingSpecialist = await specialistData.getSpecialistByEmail(data.email)
-	if (!existingSpecialist) throw new Error('Autheticated failed')
-
-	const passwordMatch = await bcrypt.compare(data.senha, existingSpecialist.senha)
-	if (!passwordMatch) throw new Error('Autheticated failed')
-
-	const token = jwt.sign({
-		id_user: existingSpecialist.id,
-		email: existingSpecialist.email,
-		specialista: true,
-	}, config.get('key.jwt'), {
-		expiresIn: '1d',
-	})
-
-	return token
+exports.getSpecialists = async function () {
+	specialists = await specialistData.getSpecialists()
+	specialists.forEach(specialist => {
+		delete specialist.id
+		delete specialist.senha
+	});
+	return specialists
 }
 
 exports.getSpecialist = async function (id) {
