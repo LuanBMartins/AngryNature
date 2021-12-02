@@ -25,10 +25,20 @@ const specUser = connection.define('specialists', {
 	},
 	
     nascimento: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
 		allowNull: false,
     },
 
+    estado: {
+      type: DataTypes.STRING(100),
+    allowNull: false,
+    },
+
+    cidade: {
+      type: DataTypes.STRING(100),
+    allowNull: false,
+    },
+    
     organizacao: {
         type: DataTypes.STRING(100),
 		allowNull: false,
@@ -49,6 +59,6 @@ const specUser = connection.define('specialists', {
 	},
 })
 
-specUser.sync()
+
 
 module.exports = specUser

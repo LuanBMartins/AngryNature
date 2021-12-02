@@ -1,0 +1,4 @@
+.container-dashboard{
+  background: linear-gradient(to right, rgb(113, 163, 179),rgb(89, 194, 89));
+  display: flex;
+}

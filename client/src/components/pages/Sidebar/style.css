@@ -1,0 +1,53 @@
+.sidebar {
+  height: 100vh;
+  width: 230px;
+  background-color: rgba(0,0,0,0.8);
+}
+
+.link{
+  text-decoration: none;
+}
+
+.SidebarList{
+  height: auto;
+  padding: 0;
+  width: 100%;
+}
+
+.SidebarList .row{
+ width: 100%;
+ height: 60px;
+ border: 1px solid rgb(0, 0, 0);
+ list-style-type: none;
+ margin: 0;
+ display: flex;
+ flex-direction: row;
+ color: white;
+ justify-content: center;
+ align-items: center;
+ transition: all 0.3s ease-in-out;
+}
+
+.SidebarList .row:hover{
+  cursor: pointer;
+  background-color: rgb(15, 15, 26);
+}
+
+.SidebarList:active{
+  background-color: rgb(15, 15, 26);
+}
+
+.row #icon {
+  flex: 30%;
+  display: grid;
+  place-items: center;
+}
+
+.row #title {
+  flex: 70%;
+}
+
+.avatar {
+  text-align: center;
+  color: white;
+}
