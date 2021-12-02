@@ -29,6 +29,16 @@ const specUser = connection.define('specialists', {
 		allowNull: false,
     },
 
+    estado: {
+      type: DataTypes.STRING(100),
+    allowNull: false,
+    },
+
+    cidade: {
+      type: DataTypes.STRING(100),
+    allowNull: false,
+    },
+    
     organizacao: {
         type: DataTypes.STRING(100),
 		allowNull: false,

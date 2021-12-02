@@ -55,7 +55,7 @@ exports.putUser = async function (id, newData) {
 		const existingUserEmail = await userData.getUserByEmail(newData.email)
 		if (existingUserEmail) throw new Error('Email already exist')
 
-		const existingSpecialist = await specialistData.getSpecialistByEmail(data.email)
+		const existingSpecialist = await specialistData.getSpecialistByEmail(newData.email)
     	if (existingSpecialist) throw new Error('Email already exist')
 	}
 

@@ -32,6 +32,11 @@ const user = connection.define('users', {
     estado: {
         type: DataTypes.STRING(100),
 		allowNull: false,
+    },
+
+    cidade: {
+      type: DataTypes.STRING(100),
+    allowNull: false,
     }
 
 }, {
