@@ -1,34 +1,50 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect  } from 'react'
 import "./style.home.css"
 import api from "./../../../services/api"
+import { useNavigate } from 'react-router-dom'
+import location  from './../../../utils/location.json'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function UserForm() {
 
-  const [message, setMessage] = useState('')
   const [formEspecializado, setFormEspecializado] = useState(false);
+  const [estado, setEstado] = useState({})
   const [login, setLogin] = useState({
     email: '',
-    password: ''
+    senha: ''
   });
 
   const [register, setRegister] = useState({
-    name: '',
     email: '',
-    birthday: '',
-    country: '',
-    state: '',
-    city: '',
-    password: '',
-    organization: '',
-    specialty: ''
+    nome: '',
+    senha: '',
+    nascimento: '',
+    regiao: {estado: '', cidade: ''},
+    organizacao: '',
+    especialidade: ''
   });
 
+  const notifySuccess = (message) => toast.success(message)
+  const notifyError = (message) => toast.error(message)
 
-  const pais = ['Selecione o país', 'Brasil', 'Alemanha', 'Estados Unidos']
-  const cidade = ['Selecione a cidade', 'Pouso Alegre', 'Berlin', 'Florida']
-  const estado = ['Selecione o estado', 'MG', 'SP', 'RJ']
-  const especialidade = ['Selecione uma especialidade', 'Meteorologia', 'Astronomo', 'Físico', 'Engenhario Quimico', 'Biologo', 'Cientista de dados']
+  const navigate = useNavigate()
 
+  const especialidade = ['Meteorologista', 'Astronomo', 'Físico', 'Engenheiro Quimico', 'Biologo', 'Cientista de dados', 'Analista de dados', 'Desenvolvedor']
+
+  const clearForm = () => {
+    setRegister({
+      email: '',
+      nome: '',
+      senha: '',
+      nascimento: '',
+      regiao: {estado: location.estados[0].sigla, cidade: ''},
+      organizacao: '',
+      especialidade: ''
+    })
+
+    setEstado(location.estados[0])
+  }
 
   const handleChangeRegister = (e) => {
     const name = e.target.name;
@@ -48,24 +64,73 @@ export default function UserForm() {
     })
   }
 
-  const onSubmitLogin = (e) => {
-    e.preventDefault();
-  }
-
-  const onSubmitRegister = async (e) => {
+  const onSubmitLogin = async(e) => {
     e.preventDefault();
     try {
-      let response;
-      if(register.organization && register.specialty){
-        response = await api.post('userSpecialist', register)
-        if(response.status === 200){
-          setMessage(response.message)
+       const config = {
+        headers: {
+          'Content-Type': 'application/json'
         }
+      }
+      const response = await api.post('users/login', JSON.stringify(login), config)
+      if(response.status === 200) {
+        localStorage.setItem('token', response.data)
+        localStorage.setItem('email', login.email)
+        localStorage.setItem('id', 1)
+        navigate("/dashboard")
+      } else{
+        throw new Error('Login invalido')
       }
     } catch (error) {
       console.log(error)
     }
   }
+
+  const onSubmitRegister = async (e) => {
+    e.preventDefault();
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+      let response;
+      if(register.organizacao && register.especialidade){
+        response = await api.post('specialists', JSON.stringify(register), config)
+        if(response.status === 201){
+          notifySuccess(response.data.message)
+        } else{
+          throw new Error('Erro ao registrar especialista')
+        }
+      } else {
+        for(const key in register){
+          if(key === 'organizacao' || key === 'especialidade'){
+            delete register[key]
+          }
+        }
+        response = await api.post('users', JSON.stringify(register), config)
+        if(response.status === 201){
+          console.log(response.data.message)
+          notifySuccess(response.data.message)
+        } else{
+          throw new Error('Erro ao registrar usuário')
+        }
+      }
+      clearForm();
+    } catch (error) {
+      notifyError('Erro ao criar')
+    }
+  }
+
+  useEffect(() => {
+    setEstado(location.estados[0])
+    setRegister((prev) => ({
+      ...prev,
+      regiao: {estado: location.estados[0].sigla, cidade: ''}
+    }))
+    console.log(location.estados[0])
+  }, [])
+
   return (
     <div className="container-home">
       <img src="/tornado.jpg" alt="" />
@@ -79,7 +144,9 @@ export default function UserForm() {
               name="email"
               type="email"
               placeholder="Email"
+              value={login.email}
               onChange={handleChangeLogin}
+              required
             />
           </label>
 
@@ -87,10 +154,12 @@ export default function UserForm() {
             <span>Senha: </span>
 
             <input
-              name="password"
+              name="senha"
               type="password"
               placeholder="Senha"
+              value={login.senha}
               onChange={handleChangeLogin}
+              required
             />
           </label>
 
@@ -105,10 +174,12 @@ export default function UserForm() {
           <label>
             <span>Nome: </span>
             <input
-              name="name"
+              name="nome"
               type="text"
               placeholder="Nome"
-              onChange={(e) => setRegister()}
+              value={register.nome}
+              onChange={handleChangeRegister}
+              required
             />
           </label>
 
@@ -118,63 +189,75 @@ export default function UserForm() {
               name="email"
               type="email"
               placeholder="Email"
+              value={register.email}
               onChange={handleChangeRegister}
+              required
             />
           </label>
 
           <label>
             <span>Nascimento: </span>
             <input
-              name="birthday"
+              name="nascimento"
               type="date"
               placeholder="Nascimento"
+              value={register.nascimento}
               onChange={handleChangeRegister}
+              required
             />
           </label>
 
           <label>
-            <span>País: </span>
-            <select name="country" placeholder="País" onChange={handleChangeRegister}>
-              {pais.map((el) => {
-                return <option value={el}>{el}</option>
-              })}
-            </select>
-          </label>
-
-          <label>
             <span>Estado: </span>
-
-            <select
-              name="state"
-              placeholder="Estado"
-              onChange={handleChangeRegister}
+            <select 
+              name="estado" 
+              placeholder="Estado" 
+              value={register.estado} 
+              onChange={(e) => { 
+                setRegister((prev) => ({
+                  ...prev,
+                  regiao: {estado: e.target.value, cidade: ''}
+                }))
+                setEstado(location.estados.find((el) => el.sigla === e.target.value))
+              }} 
+              required
             >
-              {estado.map((el) => {
-                return <option value={el}>{el}</option>
+              {location.estados.map((el, key) => {
+                return <option key={key} value={el.sigla}>{el.sigla} - {el.nome}</option>
               })}
             </select>
           </label>
-
           <label>
             <span>Cidade: </span>
-            <select
-              name="city"
-              placeholder="Cidade"
-              onChange={handleChangeRegister}
+            <select 
+              name="cidade" 
+              placeholder="Cidade" 
+              value={register.cidade} 
+              onChange={(e) => {
+                setRegister((prev) => ({
+                  ...prev,
+                  regiao: {...register.regiao, cidade: e.target.value}
+                }))
+              }} 
+              required
             >
-              {cidade.map((el, key) => {
-                return <option key={key} value={el} selected={el === 'Selecione a cidade' ? 'selected' : ''}>{el}</option>
-              })}
+              {estado && (
+                estado?.cidades?.map((el) => {
+                  return <option value={el}>{el}</option>
+                })
+              )}
             </select>
-          </label>
+          </label>       
 
           <label>
             <span>Senha</span>
             <input
-              name="password"
+              name="senha"
               type="password"
               placeholder="Senha"
+              value={register.senha}
               onChange={handleChangeRegister}
+              required
             />
           </label>
 
@@ -186,6 +269,7 @@ export default function UserForm() {
               onChange={(e) => {
                 setFormEspecializado(e.target.checked)
               }}
+              
             />
           </label>
 
@@ -194,17 +278,19 @@ export default function UserForm() {
               <label>
                 <span>Instituição/Organização</span>
                 <input
-                  name="organization"
+                  name="organizacao"
                   type="text"
                   placeholder="Sigla ou nome"
+                  value={register.organizacao}
                   onChange={handleChangeRegister}
+                  required
                 />
               </label>
               <label>
                 <span>Especialidade</span>
-                <select name="especialidade" onChange={handleChangeRegister}>
+                <select name="especialidade" value={register.especialidade} onChange={handleChangeRegister} required>
                   {especialidade.map((el, key) => {
-                    return <option key={key} value={el} selected={el === 'Selecione uma especialidade' ? el : ''}>{el}</option>
+                    return <option key={key} value={el}>{el}</option>
                   })}
                 </select>
               </label>
@@ -213,6 +299,8 @@ export default function UserForm() {
           <button>CONFIRMAR</button>
         </form>
       </div>
+      <ToastContainer />
+      
     </div>
   )
 }

@@ -5,16 +5,34 @@
   align-items: center;
 }
 
-.content-useraccount{
-  position: absolute;
-  left: 50%;
-}
-
-.data-user{
+.content-data{
+  display: flex;
+  flex-direction: column;
   padding: 2em;
   background: white;
-  border: 1px solid black;
   border-radius: 6px;
+  margin-left: 8em;
+  font-size: 23px;
+  box-shadow: 4px 4px 2px rgb(66, 66, 66);
 }
+
+.content-data div{
+  padding: 1em;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+.content-data span{
+  padding: 0.5em;
+  background: rgb(197, 197, 197);
+  border-radius: 5px;
+}
+
+.delete-edit{
+  justify-content: space-between
+}
+
+
+
 
 

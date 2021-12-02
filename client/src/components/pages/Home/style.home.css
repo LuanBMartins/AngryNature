@@ -111,4 +111,19 @@ button:active {
   transform: translateY(2px) translateX(2px);
 }
 
+.success-message{
+  color:rgb(78, 209, 144);
+  font-style: italic;
+  font-size: 24px;
+  transition: all 0.3s ease-in-out;
+}
+
+.error-message{
+  color: tomato;
+  font-style: italic;
+  font-size: 24px;
+  transition: all 0.3s ease-in-out;
+  
+}
+
 
