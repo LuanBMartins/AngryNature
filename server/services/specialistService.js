@@ -50,20 +50,28 @@ exports.putSpecialist = async function (id, newData) {
 	const existingSpecialist = await specialistData.getSpecialist(id)
 	if (!existingSpecialist) throw new Error('User not found')
 
-	if (Object.prototype.hasOwnProperty.call(newData, 'email')) {
-		const existingUserEmail = await userData.getUserByEmail(newData.email)
+	const filters = ['email', 'senha', 'nome', 'nascimento', 'organizacao', 'especialidade']
+    const validFilters = {}
+
+    // Analisando quais filtros foram informados
+    filters.forEach(filter => {
+        newData[filter] != null && newData[filter] != '' ? validFilters[filter] = newData[filter] : false
+    })
+
+	if (Object.prototype.hasOwnProperty.call(validFilters, 'email')) {
+		const existingUserEmail = await userData.getUserByEmail(validFilters.email)
 		if (existingUserEmail) throw new Error('Email already exist')
 
-		const existingSpecialist = await specialistData.getSpecialistByEmail(data.email)
+		const existingSpecialist = await specialistData.getSpecialistByEmail(validFilters.email)
     	if (existingSpecialist) throw new Error('Email already exist')
 	}
 
-	if (Object.prototype.hasOwnProperty.call(newData, 'password')) {
-		const passwordHash = await bcrypt.hash(newData.password, 8)
-		newData.password = passwordHash
+	if (Object.prototype.hasOwnProperty.call(validFilters, 'password')) {
+		const passwordHash = await bcrypt.hash(validFilters.password, 8)
+		validFilters.password = passwordHash
 	}
 
-	return specialistData.putSpecialist(id, newData)
+	return specialistData.putSpecialist(id, validFilters)
 }
 
 exports.deleteSpecialist = async function (id) {
