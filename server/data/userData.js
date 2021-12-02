@@ -6,7 +6,7 @@ exports.saveUser = function (newUser) {
 
 
 exports.getUserByEmail = function (email) {
-	return user.findOne({ where: { email } })
+	return user.findOne({ where: { email }, raw: true })
 }
 
 

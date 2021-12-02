@@ -6,7 +6,7 @@ exports.saveSpecialist = function (newUser) {
 
 
 exports.getSpecialistByEmail = function (email) {
-	return specialist.findOne({ where: { email } })
+	return specialist.findOne({ where: { email }, raw: true })
 }
 
 exports.getSpecialist = function (id) {

@@ -22,15 +22,30 @@ exports.saveUser = async function (data) {
 
 exports.loginUser = async function (data) {
 	const existingUser = await userData.getUserByEmail(data.email)
-	if (!existingUser) throw new Error('Autheticated failed')
+	let user
+	if (!existingUser) {
+		const existingSpecialist = await specialistData.getSpecialistByEmail(data.email)
+   		if (!existingSpecialist) throw new Error('Autheticated failed')
+		user = {
+			... existingSpecialist,
+			comum: false,
+			especialista: true
+		}
+	} else user = {
+		... existingUser,
+		comum: true,
+		especialista: false
+	}
 
-	const passwordMatch = await bcrypt.compare(data.senha, existingUser.senha)
+	const passwordMatch = await bcrypt.compare(data.senha, user.senha)
 	if (!passwordMatch) throw new Error('Autheticated failed')
 
+
 	const token = jwt.sign({
-		id_user: existingUser.id,
-		email: existingUser.email,
-		comum: true,
+		id_user: user.id,
+		email: user.email,
+		comum: user.comum,
+		especialista: user.especialista,
 	}, config.get('key.jwt'), {
 		expiresIn: '1d',
 	})
