@@ -1,0 +1,36 @@
+.container-donations{
+  background: linear-gradient(to right, rgb(113, 163, 179),rgb(89, 194, 89));
+  display: flex;
+  margin-left: 230px;
+  height: 100vh;
+  overflow: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.donation-search{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.donation-search input{
+  margin-left: 0px;
+  margin-bottom: 1em;
+}
+
+.content-donation{
+  background: white;
+  text-align: center;
+ 
+}
+
+.content-donation table, tr, td, th {
+  border: 1px solid black;
+  padding: 1em;
+}
+
+.button-donation{
+  text-align: center;
+  margin-top: 2em;
+}

@@ -2,37 +2,34 @@
   background: linear-gradient(to right, rgb(113, 163, 179),rgb(89, 194, 89));
   display: flex;
   height: 100vh;
+  margin-left: 230px;
+  overflow: auto;
   align-items: center;
+  justify-content: center;
 }
 
-.content-data{
-  display: flex;
-  flex-direction: column;
-  padding: 2em;
+.content-account{
   background: white;
+  align-items:baseline;
+  padding: 2em;
   border-radius: 6px;
-  margin-left: 8em;
-  font-size: 23px;
-  box-shadow: 4px 4px 2px rgb(66, 66, 66);
+   box-shadow: 4px 4px 2px black;
 }
 
-.content-data div{
-  padding: 1em;
+.item {
   border: 1px solid black;
   border-radius: 3px;
+  padding: 0.9em;
 }
 
-.content-data span{
-  padding: 0.2em;
-  background: rgba(115, 164, 197, 0.623);
-  border-radius: 5px;
-  font-style: italic;
-  margin-left: 1em;
+.content-account span{
+  padding: 0.5em;
+  background: lightgray;
+  margin-left: 5px;
 }
 
-.delete-edit{
+.edit{
   justify-content: center;
-  font-style: italic;
 }
 
 

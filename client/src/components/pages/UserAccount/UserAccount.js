@@ -4,6 +4,7 @@ import Sidebar from '../Sidebar/Sidebar'
 import './style.useraccount.css'
 import api from "./../../../services/api"
 import location  from './../../../utils/location.json'
+import useLocalStorage from './../../../utils/useLocalStorage'
 import { ToastContainer, toast } from 'react-toastify'
 import EditIcon from '@mui/icons-material/Edit';
 import { Modal, ModalFooter, ModalHeader, ModalBody, Button } from 'reactstrap'
@@ -28,6 +29,7 @@ export default function UserAccount() {
 
   const navigate = useNavigate()
 
+  const [email, setEmail] = useLocalStorage("email", "")
   const [modal, setModal] = useState(false)
   const [estado, setEstado] = useState({})
 
@@ -83,10 +85,6 @@ export default function UserAccount() {
     }
   }
 
-  useEffect(() => {
-    console.log(update)
-  }, [update])
-
   const handleSubmitUpdate = async (e) => {
     
     try {
@@ -101,10 +99,10 @@ export default function UserAccount() {
       }
       let response;
       if(!decoded.comum){
-        console.log('update', update)
         response = await api.put(`specialists/${decoded.id_user}`, JSON.stringify(update), config)
         if(response.status === 200){
           notifySuccess('Atualizado com sucesso')
+          setEmail(update.email)
           navigate('/dashboard')
         } else{
           throw new Error('Erro ao atualizar especialista')
@@ -140,17 +138,12 @@ export default function UserAccount() {
 
   useEffect(() => {
     setEstado(location.estados[0])
-    setUpdate((prev) => ({
-      ...prev,
-      estado: location.estados[0].sigla
-    }))
   }, [])
 
 
   return (
   
       <div className="container-useraccount">
-        <Sidebar />
         <Modal isOpen={modal} toggle={toggle}>
           <ModalHeader>
             Atualizar dados
@@ -164,6 +157,7 @@ export default function UserAccount() {
               placeholder="Nome"
               value={update.nome}
               onChange={handleChangeUpdate}
+              autocomplete="off"
               required
             />
           </label>
@@ -171,6 +165,7 @@ export default function UserAccount() {
           <label>
             <span>Email: </span>
             <input
+              autocomplete="off"
               name="email"
               type="email"
               placeholder="Email"
@@ -182,7 +177,7 @@ export default function UserAccount() {
 
           <label>
             <span>Nascimento: </span>
-            <input
+            <input           
               name="nascimento"
               type="date"
               placeholder="Nascimento"
@@ -207,6 +202,7 @@ export default function UserAccount() {
               }} 
               required
             >
+              <option></option>
               {location.estados.map((el, key) => {
                 return <option key={key} value={el.sigla}>{el.sigla} - {el.nome}</option>
               })}
@@ -226,6 +222,7 @@ export default function UserAccount() {
               }} 
               required
             >
+              <option></option>
               {estado && (
                 estado?.cidades?.map((el, key) => {
                   return <option key={key}value={el}>{el}</option>
@@ -251,6 +248,7 @@ export default function UserAccount() {
               <label>
                 <span>Instituição/Organização</span>
                 <input
+                  autocomplete="off"
                   name="organizacao"
                   type="text"
                   placeholder="Sigla ou nome"
@@ -262,6 +260,7 @@ export default function UserAccount() {
               <label>
                 <span>Especialidade</span>
                 <select name="especialidade" value={update.especialidade} onChange={handleChangeUpdate} required>
+                  <option></option>
                   {especialidade.map((el, key) => {
                     return <option key={key} value={el}>{el}</option>
                   })}
@@ -275,26 +274,29 @@ export default function UserAccount() {
                   <Button color="danger" onClick={toggle}>Cancelar</Button>
                 </ModalFooter>
               </Modal>
-        <div className="content-data">
+        <div className="content-account">
 
-            <div style={{border: 'none'}}>
-              <div className="mb-2">Nome: <span>{data.nome}</span></div>
-              <div className="mb-2">Email: <span>{data.email}</span></div>
-              <div className="mb-2">Nascimento: <span>{data.nascimento.split('T')[0]}</span></div>
-              <div className="mb-2">Estado: <span>{data.estado}</span></div>
-              <div className="mb-2">Cidade: <span>{data.cidade}</span></div>
+            <div>
+              <div className="mb-2 item">Nome: <span>{data.nome}</span></div>
+              <div className="mb-2 item">Email: <span>{data.email}</span></div>
+              <div className="mb-2 item">Nascimento: <span>{data.nascimento.split('T')[0]}</span></div>
+              <div className="mb-2 item">Estado: <span>{data.estado}</span></div>
+              <div className="mb-2 item">Cidade: <span>{data.cidade}</span></div>
               {!checkType() && (
                 <>
-                  <div className="mb-2">Organização: <span>{data.organizacao}</span> </div>
-                   <div className="mb-2">Especialidade: <span>{data.especialidade}</span> </div>
+                  <div className="mb-2 item">Organização: <span>{data.organizacao}</span> </div>
+                   <div className="mb-2 item">Especialidade: <span>{data.especialidade}</span> </div>
                 </>  
               )}
             </div>
             
             
-            <label className="delete-edit">
-              Atualizar dados - 
-            <EditIcon color="primary" fontSize="large" style={{cursor: 'pointer'}} onClick={toggle} />
+            <label className="edit">
+            <Button color="primary" onClick={toggle} className="d-flex align-items-center">
+              <EditIcon color="light" fontSize="small" style={{cursor: 'pointer'}} />
+              Atualizar
+            </Button>
+           
             </label>          
         </div>
         <ToastContainer />

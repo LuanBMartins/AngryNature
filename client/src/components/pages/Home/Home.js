@@ -3,11 +3,18 @@ import "./style.home.css"
 import api from "./../../../services/api"
 import { useNavigate } from 'react-router-dom'
 import location  from './../../../utils/location.json'
+import useLocalStorage from './../../../utils/useLocalStorage'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from 'react-redux'
+import { loginUser } from './../../../features/user'
 
 export default function UserForm() {
 
+  const dispatch = useDispatch();
+
+
+  const [email, setEmail] = useLocalStorage("email", "")
   const [formEspecializado, setFormEspecializado] = useState(false);
   const [estado, setEstado] = useState({})
   const [login, setLogin] = useState({
@@ -77,14 +84,17 @@ export default function UserForm() {
       }
       const response = await api.post('users/login', JSON.stringify(login), config)
       if(response.status === 200) {
+        // dispatch(loginUser({email: login.email}))
+        setEmail(login.email)
         localStorage.setItem('token', response.data)
         notifySuccess('Logado com sucesso')
         navigate("/dashboard")
       } else {
-        throw new Error('error')
+        throw Error
       }
     } catch (error) {
-      notifyError('Email e/ou senha incorretos')
+      // notifyError('Email e/ou senha incorretos')
+      console.log(error)
     }
   }
 
@@ -140,6 +150,7 @@ export default function UserForm() {
           <label>
             <span>Email: </span>
             <input
+              autocomplete="off"
               name="email"
               type="email"
               placeholder="Email"
@@ -153,6 +164,7 @@ export default function UserForm() {
             <span>Senha: </span>
 
             <input
+              autocomplete="off"
               name="senha"
               type="password"
               placeholder="Senha"
@@ -173,6 +185,7 @@ export default function UserForm() {
           <label>
             <span>Nome: </span>
             <input
+              autocomplete="off"
               name="nome"
               type="text"
               placeholder="Nome"
@@ -185,6 +198,7 @@ export default function UserForm() {
           <label>
             <span>Email: </span>
             <input
+              autocomplete="off"
               name="email"
               type="email"
               placeholder="Email"
@@ -197,6 +211,7 @@ export default function UserForm() {
           <label>
             <span>Nascimento: </span>
             <input
+              autocomplete="off"
               name="nascimento"
               type="date"
               placeholder="Nascimento"
@@ -279,6 +294,7 @@ export default function UserForm() {
               <label>
                 <span>Instituição/Organização</span>
                 <input
+                  autocomplete="off"
                   name="organizacao"
                   type="text"
                   placeholder="Sigla ou nome"

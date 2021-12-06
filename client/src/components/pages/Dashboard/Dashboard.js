@@ -12,8 +12,6 @@ export default function Dashboard() {
           Em construção...
         </div>
       </div>
-
-
     </div>
   )
 }
