@@ -9,6 +9,10 @@ module.exports = {
         return phenomenon.findAll({ where: filter })
     },
 
+    read: (filter) => {
+        return phenomenon.findAll()
+    },
+
     update: (id, data) => {
         return phenomenon.update(data, { where: { id } })
     },
