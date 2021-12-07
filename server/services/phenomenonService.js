@@ -21,6 +21,10 @@ module.exports = {
 
     },
 
+    read: () => {
+        return phenomenon.read()
+    },
+
     filterForUser: (user, id) => {
         if(!user || !id){
             throw new error(404, 'Filtros indefinidos!')

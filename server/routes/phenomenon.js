@@ -21,6 +21,15 @@ router.post('/fenomeno/consulta', ensureAuthenticated, async (req, res, next) =>
     }
 })
 
+router.get('/fenomeno/lista', ensureAuthenticated, async (req, res, next) => {
+    try {
+        const response = await phenomenonService.read()
+        res.status(200).send(response)
+    } catch (error) {
+        next(error)
+    }
+})
+
 router.get('/fenomeno/consulta/:usuario/:id', ensureAuthenticated, async (req, res, next) => {
     try {
         const response = await phenomenonService.filterForUser(req.params.usuario, req.params.id)
