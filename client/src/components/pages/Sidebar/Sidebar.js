@@ -12,6 +12,7 @@ import discriToken from './../../../utils/discriToken';
 import FeedIcon from '@mui/icons-material/Feed';
 import { useSelector } from 'react-redux';
 import api from "./../../../services/api"
+import AssessmentIcon from '@mui/icons-material/Assessment';
 
 export default function Sidebar() {
 
@@ -104,6 +105,19 @@ export default function Sidebar() {
             >
               <div id="icon"><FeedIcon/></div>
               <div id="title">Minhas publicações</div>
+            </li>
+           </Link>
+           <Link
+              to="/reports"
+              className="link"
+            >
+            <li
+              className="row"
+              id={window.location.pathname === '/reports' ? 'active' : ''}
+
+            >
+              <div id="icon"><AssessmentIcon /></div>
+              <div id="title">Relatórios</div>
             </li>
            </Link>
            </>
