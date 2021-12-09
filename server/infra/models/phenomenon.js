@@ -8,6 +8,11 @@ const phenomenon = connection.define('phenomenon', {
 		autoIncrement: true,
 	},
 
+    autor: {
+        type: DataTypes.STRING(100),
+		allowNull: false
+    },
+
     tipo: {
 		type: DataTypes.STRING(100),
 		allowNull: false
@@ -39,7 +44,7 @@ const phenomenon = connection.define('phenomenon', {
     },
 
     arquivo: {
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING(200),
 		allowNull: true,
     },
 
