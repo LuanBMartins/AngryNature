@@ -22,6 +22,7 @@ export default function routes() {
         <Route path="/" exact element={<Home/>}  />
         <Route exact path="/dashboard" element={
           <ProtectedRoute>
+            <Sidebar/>
             <Dashboard/>
           </ProtectedRoute>
         }/>

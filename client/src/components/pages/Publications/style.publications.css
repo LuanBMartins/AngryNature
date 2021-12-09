@@ -1,0 +1,7 @@
+.container-publications{
+  background: linear-gradient(to right, rgb(113, 163, 179),rgb(89, 194, 89));
+  display: flex;
+  margin-left: 230px;
+  height: 100vh;
+  overflow: auto;
+}

@@ -6,7 +6,7 @@
   font-size: 15px;
 }
 
-img{
+.home-image{
   position: fixed;
   z-index: -1;
   height: 100vh;

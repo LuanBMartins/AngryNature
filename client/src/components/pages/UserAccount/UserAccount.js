@@ -279,7 +279,7 @@ export default function UserAccount() {
             <div>
               <div className="mb-2 item">Nome: <span>{data.nome}</span></div>
               <div className="mb-2 item">Email: <span>{data.email}</span></div>
-              <div className="mb-2 item">Nascimento: <span>{data.nascimento.split('T')[0]}</span></div>
+              <div className="mb-2 item">Nascimento: <span>{data.nascimento}</span></div>
               <div className="mb-2 item">Estado: <span>{data.estado}</span></div>
               <div className="mb-2 item">Cidade: <span>{data.cidade}</span></div>
               {!checkType() && (

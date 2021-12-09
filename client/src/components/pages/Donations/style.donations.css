@@ -22,7 +22,8 @@
 .content-donation{
   background: white;
   text-align: center;
- 
+  overflow: auto;
+  height: auto;
 }
 
 .content-donation table, tr, td, th {
@@ -34,3 +35,25 @@
   text-align: center;
   margin-top: 2em;
 }
+
+.search-button{
+  background: white;
+  border: 1px solid lightgrey;
+  border-radius: 6px;
+  margin-left: 5px;
+  margin-bottom: 1em;
+  cursor: "pointer";
+  box-shadow: 2px 2px 1px rgb(80, 80, 80);
+  transition: all 0.2s ease-in-out;
+}
+
+.search-button:hover{
+  background: rgb(198, 222, 230);
+}
+
+.search-button:active{
+  background: rgb(198, 222, 230);
+  transform: translateX(2px) translateY(2px);
+  box-shadow: none;
+}
+

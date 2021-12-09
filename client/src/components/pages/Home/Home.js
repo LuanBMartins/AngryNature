@@ -142,7 +142,7 @@ export default function UserForm() {
 
   return (
     <div className="container-home">
-      <img src="/tornado.jpg" alt="" />
+      <img className="home-image" src="/tornado.jpg" alt="" />
       <div className="container-form">
         
         <form onSubmit={onSubmitLogin}>

@@ -15,9 +15,8 @@ import {
 import discriToken from "./../../../utils/discriToken";
 import { useNavigate } from "react-router-dom";
 
-
-export default function UserAccount() {
-  const [register, setRegister] = useState({
+export default function UserAccount({...props}) {
+  const [update, setUpdate] = useState({
     tipo: "",
     estado: "",
     cidade: "",
@@ -40,21 +39,6 @@ export default function UserAccount() {
 
   const toggle = () => setModal(!modal);
 
-  const tipos = [
-    "Tornado",
-    "Terremoto",
-    "Tempestade",
-    "Nevasca",
-    "Tsunami",
-    "Furação",
-    "Ciclone",
-    "Tufão",
-    "Erupção Vulcânica",
-    "Deslizamento de terra",
-    "Incêndio natural",
-  ];
-  const nivel = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
   const [dataPhenomenonUser, setDataPhenomenonUser] = useState([]);
   const [dataPhenomenonType, setDataPhenomenonType] = useState([]);
   const [phenomenonType, , setPhenomenomType] = useState("");
@@ -62,8 +46,8 @@ export default function UserAccount() {
   const [loading, setLoading] = useState(false);
 
   const clearForm = () => {
-    setRegister({
-      ...register,
+    setUpdate({
+      ...update,
       tipo: "",
       estado: "",
       cidade: "",
@@ -74,18 +58,7 @@ export default function UserAccount() {
     });
   };
 
-  // const handleChangeRegisterFile = (e) => {
-  //   var reader = new FileReader();
-  //   reader.readAsDataURL(e.target.files[0]);
-  //   reader.onload = function () {
-  //     setRegister({...register, arquivo: [reader.result]})
-  //   };
-  //   reader.onerror = function (error) {
-  //     notifyError('Erro no arquivo')
-  //   };
-  // }
-
-  const handleChangeRegisterFile = async (e) => {
+  const handleChangeUpdateFile = async (e) => {
     const files = e.target.files;
     const data = new FormData();
     data.append("file", files[0]);
@@ -101,21 +74,21 @@ export default function UserAccount() {
 
     const fileResponse = await res.json();
     setFile(fileResponse.secure_url);
-    setRegister({ ...register, arquivo: fileResponse });
+    setUpdate({ ...update, arquivo: fileResponse });
     setLoading(false);
   };
 
-  const handleChangeRegisterDateTime = (e) => {
+  const handleChangeUpdateDateTime = (e) => {
     const dateTime = e.target.value.split("T");
     const date = dateTime[0];
     const time = `${dateTime[1]}:00`;
-    setRegister({ ...register, data: date, horas: time });
+    setUpdate({ ...update, data: date, horas: time });
   };
 
-  const handleChangeRegister = (e) => {
+  const handleChangeUpdate = (e) => {
     const name = e.target.name;
-    setRegister({
-      ...register,
+    setUpdate({
+      ...update,
       [name]: e.target.value,
     });
   };
@@ -153,7 +126,7 @@ export default function UserAccount() {
     }
   };
 
-  const handleSubmitRegister = async (e) => {
+  const handleSubmitUpdate = async (e) => {
     try {
       const token = localStorage.getItem("token");
       const config = {
@@ -165,7 +138,7 @@ export default function UserAccount() {
       let response;
       response = await api.post(
         `fenomeno/cadastro`,
-        JSON.stringify(register),
+        JSON.stringify(update),
         config
       );
       if (response.status === 200) {
@@ -187,14 +160,14 @@ export default function UserAccount() {
   useEffect(() => {
     const decoded = discriToken();
     if (!decoded.comum) {
-      setRegister({
-        ...register,
+      setUpdate({
+        ...update,
         idEspecialista: decoded.id_user,
         idUser: null,
       });
     } else {
-      setRegister({
-        ...register,
+      setUpdate({
+        ...update,
         idUser: decoded.id_user,
         idEspecialista: null,
       });
@@ -220,9 +193,9 @@ export default function UserAccount() {
             <select
               name="tipo"
               placeholder="Tipo"
-              value={register.tipo}
+              value={update.tipo}
               onChange={(e) => {
-                setRegister((prev) => ({
+                setUpdate((prev) => ({
                   ...prev,
                   tipo: e.target.value,
                 }));
@@ -230,7 +203,7 @@ export default function UserAccount() {
               required
             >
               <option></option>
-              {tipos.map((el, key) => {
+              {props?.tipos.map((el, key) => {
                 return (
                   <option key={key} value={el}>
                     {el}
@@ -245,9 +218,9 @@ export default function UserAccount() {
             <select
               name="estado"
               placeholder="Estado"
-              value={register.estado}
+              value={update.estado}
               onChange={(e) => {
-                setRegister((prev) => ({
+                setUpdate((prev) => ({
                   ...prev,
                   estado: e.target.value,
                 }));
@@ -272,9 +245,9 @@ export default function UserAccount() {
             <select
               name="cidade"
               placeholder="Cidade"
-              value={register.cidade}
+              value={update.cidade}
               onChange={(e) => {
-                setRegister((prev) => ({
+                setUpdate((prev) => ({
                   ...prev,
                   cidade: e.target.value,
                 }));
@@ -299,7 +272,7 @@ export default function UserAccount() {
               name="data/hora"
               type="datetime-local"
               placeholder="Data/hora"
-              onChange={handleChangeRegisterDateTime}
+              onChange={handleChangeUpdateDateTime}
               required
             />
           </label>
@@ -309,9 +282,9 @@ export default function UserAccount() {
             <select
               name="nivel"
               placeholder="Nivel"
-              value={register.nivel}
+              value={update.nivel}
               onChange={(e) => {
-                setRegister((prev) => ({
+                setUpdate((prev) => ({
                   ...prev,
                   nivel: e.target.value,
                 }));
@@ -319,7 +292,7 @@ export default function UserAccount() {
               required
             >
               <option></option>
-              {nivel?.map((el, key) => {
+              {props.nivel?.map((el, key) => {
                 return (
                   <option key={key} value={el}>
                     {el}
@@ -335,14 +308,14 @@ export default function UserAccount() {
               name="arquivo"
               type="file"
               placeholder="Foto/video"
-              onChange={handleChangeRegisterFile}
+              onChange={handleChangeUpdateFile}
               accept="video/*, image/*"
               required
             />
           </label>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={handleSubmitRegister}>
+          <Button color="primary" onClick={handleSubmitUpdate}>
             Confirmar
           </Button>
           <Button color="danger" onClick={toggle}>
@@ -350,10 +323,9 @@ export default function UserAccount() {
           </Button>
         </ModalFooter>
       </Modal>
-    
 
       <div className="content-phenomena">
-        <label className="register-phenomena">
+        <label className="update-phenomena">
           <h3>Fenomenos</h3>
           <Button color="primary" onClick={toggle}>
             Registrar
