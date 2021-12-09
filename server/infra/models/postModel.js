@@ -24,7 +24,7 @@ const posts = connection.define('posts', {
 	},
 	
     arquivo: {
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING(200),
 		allowNull: true,
     },
     idEspecialista: {
