@@ -1,52 +1,37 @@
 const { DataTypes } = require('sequelize')
 const connection = require('../database')
 
-const phenomenon = connection.define('phenomenon', {
+const doacao = connection.define('doacao', {
     id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
 		autoIncrement: true,
 	},
 
-    autor: {
-        type: DataTypes.STRING(100),
-		allowNull: false
-    },
-
-    tipo: {
+    nome: {
 		type: DataTypes.STRING(100),
 		allowNull: false
 	},
 
-	estado: {
-		type: DataTypes.CHAR(2),
-		allowNull: false,
-	},
-
-	cidade: {
+    email: {
 		type: DataTypes.STRING(100),
 		allowNull: false,
 	},
-	
-    data: {
-        type: DataTypes.DATEONLY,
-		allowNull: true,
-    },
 
-    horas: {
-        type: DataTypes.TIME,
-		allowNull: true,
-    },
+	data: {
+		type: DataTypes.DATEONLY,
+		allowNull: false,
+	},
 
-    nivel: {
-        type: DataTypes.INTEGER,
+    valor: {
+        type: DataTypes.FLOAT,
 		allowNull: false,
     },
 
-    arquivo: {
-        type: DataTypes.STRING(200),
-		allowNull: true,
-    },
+    ong: {
+		type: DataTypes.STRING(100),
+		allowNull: false,
+	},
 
     idEspecialista: {
         type: DataTypes.INTEGER,
@@ -58,7 +43,7 @@ const phenomenon = connection.define('phenomenon', {
         
     },
 
-    idUser: {
+	idUser: {
         type: DataTypes.INTEGER,
 		allowNull: true,
         references: {
@@ -68,10 +53,10 @@ const phenomenon = connection.define('phenomenon', {
     }
 
 }, {
-	tableName: 'phenomenon',
+	tableName: 'doacao',
 	timestamps: false,
 })
 
 
 
-module.exports = phenomenon
+module.exports = doacao

@@ -93,13 +93,12 @@ export default function Dashboard() {
 
   return (
     <div className="container-delete">
-      <Sidebar/>
       <div>
         <div className="content-delete">
           <form>
-            <label>
-            <span>Digite o email para confirmar</span>
-            <input type="email" onChange={handleInputChange} required/>
+            <label className="label-delete">
+              <span>Digite o email para confirmar</span>
+              <input type="email" onChange={handleInputChange} required/>
             </label>
           </form>
           <Button color="success" onClick={deleteUser}>Confirmar</Button>

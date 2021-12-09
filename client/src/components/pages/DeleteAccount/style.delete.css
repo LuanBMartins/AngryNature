@@ -1,15 +1,34 @@
 .container-delete{
   background: linear-gradient(to right, rgb(113, 163, 179),rgb(89, 194, 89));
   display: flex;
+  margin-left: 230px;
+  height: 100vh;
+  overflow: auto;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .content-delete{
-  position: absolute;
-  font-size: 25px;
-  margin-left: 1em;
-  margin-top: 1em;
-  background-color: rgb(255, 255, 255);
+  background: rgb(255, 255, 255);
+  padding: 1.3em;
   border-radius: 6px;
-  box-shadow: 4px 4px 2px black;
-  text-align: center;
+}
+
+.content-delete span{
+  font-style: italic;
+  font-size: 20px;
+}
+
+.label-delete{
+  display: flex;
+  flex-direction: column;
+}
+
+.label-delete span{
+  margin-bottom: 2em;
+}
+
+.label-delete input{
+  margin-bottom: 1em;
 }

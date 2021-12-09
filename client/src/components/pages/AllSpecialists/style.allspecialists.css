@@ -2,22 +2,13 @@
   background: linear-gradient(to right, rgb(113, 163, 179),rgb(89, 194, 89));
   display: flex;
   height: 100vh;
+  margin-left: 230px;
+  overflow: auto;
 }
 
 .specialists{
   padding: 10px;
   margin: 10px;
-}
-
-.content-data{
-  display: flex;
-  flex-direction: column;
-  padding: 5em;
-  background: white;
-  border-radius: 6px;
-  margin-left: 8em;
-  font-size: 23px;
-  box-shadow: 4px 4px 2px rgb(66, 66, 66);
 }
 
 .content-data div{
